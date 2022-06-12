@@ -1,0 +1,40 @@
+import unittest
+import dominio
+from dominio import Biblioteca,Livro,Funcionario,Usuario,Emprestimo
+
+#verificar livro ja emprestado
+#buscar livro nao cadastrado na biblioteca
+#devolver um livro nao emprestado
+#limitar emprestimo de no maximo 3 livros
+#solicitar emprestimo com funcionario invalido
+
+class TestCase(unittest.TestCase):
+    def test_verificarLivroJaEmprestado(self):
+       biblioteca = dominio.Biblioteca()
+       biblioteca.cadastrarLivro("bananas feias")
+       biblioteca.cadastrarFuncionario("Ivone")
+       self.assertEqual("bananas feias","livro ja emprestado")
+
+    def test_buscarLivroNaoCadastradoNaBiblioteca(self):
+       biblioteca = dominio.Biblioteca()
+       biblioteca.cadastrarLivro("bananas feias")
+       biblioteca.cadastrarLivro("biblia")
+       self.assertEqual("bananas bonitas","Livro nao encontrado na Biblioteca")
+
+    def test_devolverumlivronaoemprestado(self):
+       biblioteca = dominio.Biblioteca()
+       funcionario = dominio.Funcionario("08912710311","Irvayne")
+       biblioteca.cadastrarLivro("bananas feias")
+       biblioteca.cadastrarLivro("biblia")
+       biblioteca.realizarDevolucao("Irvayne","biblia")
+       self.assertEqual("biblia","Esse livro nao foi alugado para ser devolvido")
+
+    def test_limitarEmprestimoDeNoMaximo3Livros(self):
+        pass
+
+
+    def test_solicitarEmprestimoComFuncionarioInvalido(self):
+       biblioteca = dominio.Biblioteca()
+       biblioteca.cadastrarLivro("A volta dos que nao foram")
+       biblioteca.realizarEmprestimo("Irvayne","A volta dos que nao foram","asaph")
+       self.assertEqual("A volta dos que nao foram","Impossivel solicitar o emprestimo pois o Funcionario é Invalido!!")
